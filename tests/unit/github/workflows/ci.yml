@@ -1,0 +1,43 @@
+name: SaMD Cloud Quality Gate & CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality-and-security:
+    name: IEC 62304 Quality Gate & Security Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+          pip install pytest pytest-cov ruff mypy bandit
+
+      - name: Code Style & Quality Check (Ruff)
+        run: ruff check src/
+
+      - name: Static Type Checking (Mypy)
+        run: mypy src/ --ignore-missing-imports
+
+      - name: Security Vulnerability Scan (Bandit - SAST)
+        run: bandit -r src/ -ll
+
+      - name: Automated Medical Unit Tests & Coverage (Pytest)
+        run: pytest tests/ --cov=src --cov-fail-under=80
+
+      - name: Build Docker Image (Containerization)
+        run: docker build -t ecg-microservice:latest .
+        
