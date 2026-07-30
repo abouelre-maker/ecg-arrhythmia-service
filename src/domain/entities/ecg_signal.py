@@ -1,10 +1,10 @@
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
 
-class ArrhythmiaType(str, Enum):
+class ArrhythmiaType(StrEnum):
     NORMAL = "Normal Sinus Rhythm"
     VT = "Ventricular Tachycardia"
     AF = "Atrial Fibrillation"
