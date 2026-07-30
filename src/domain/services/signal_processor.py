@@ -62,8 +62,7 @@ class BandpassFilter:
             filtered_signal = filtfilt(b, a, signal)
             return filtered_signal
         except Exception as e:
-            raise SignalProcessingError(f"Filtering operation failed: {str(e)}")
-
+            raise SignalProcessingError(f"Filtering operation failed: {str(e)}") from e
 
 # ==========================================
 # 3. R-Peak Detector
