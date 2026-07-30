@@ -1,5 +1,6 @@
 import neurokit2 as nk
 import numpy as np
+
 from src.domain.entities.ecg_signal import (
     ArrhythmiaAlert,
     ArrhythmiaType,
@@ -68,4 +69,3 @@ if __name__ == "__main__":
     print(
         f"نتيجة التحليل للمريض {alert.patient_id}: {alert.rhythm.value} (نسبة الثقة: {alert.confidence * 100}%)"
     )
-    

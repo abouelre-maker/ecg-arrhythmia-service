@@ -1,5 +1,6 @@
 import neurokit2 as nk
 import numpy as np
+
 from src.domain.entities.ecg_signal import (
     ArrhythmiaAlert,
     ArrhythmiaType,
@@ -56,4 +57,3 @@ class RuleBasedDetector(IDetectionStrategy):
                 confidence=0.95,
                 requires_immediate_action=False,
             )
-        

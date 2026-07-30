@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException
+
 from src.domain.entities.ecg_signal import ECGSignal
 from src.domain.services.rule_based_detector import RuleBasedDetector
 from src.infrastructure.adapters.fhir_converter import FHIRConverterAdapter
@@ -24,4 +25,3 @@ def analyze_ecg(signal: ECGSignal):
         raise HTTPException(
             status_code=500, detail=f"خطأ أثناء معالجة الإشارة: {str(e)}"
         )
-    

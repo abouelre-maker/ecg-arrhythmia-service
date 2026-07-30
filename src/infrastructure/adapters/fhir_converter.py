@@ -2,6 +2,7 @@ from fhir.resources.codeableconcept import CodeableConcept
 from fhir.resources.coding import Coding
 from fhir.resources.observation import Observation
 from fhir.resources.reference import Reference
+
 from src.domain.entities.ecg_signal import ArrhythmiaAlert
 
 
@@ -50,4 +51,3 @@ if __name__ == "__main__":
     fhir_obs = FHIRConverterAdapter.create_observation(sample_alert)
     print("تم توليد كائن FHIR R4 بنجاح!")
     print(fhir_obs.json(indent=2))
-    

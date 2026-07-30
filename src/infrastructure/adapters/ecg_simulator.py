@@ -27,4 +27,3 @@ if __name__ == "__main__":
     print(
         f"تم توليد إشارة بنجاح! عدد النقاط: {len(signal)} نقطة بمعدل عينات {simulator.sampling_rate}Hz"
     )
-    
