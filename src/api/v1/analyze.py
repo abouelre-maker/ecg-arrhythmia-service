@@ -1,3 +1,4 @@
+﻿# mypy: ignore-errors
 # mypy: ignore-errors
 from fastapi import APIRouter, HTTPException
 
@@ -11,11 +12,11 @@ router = APIRouter()
 @router.post("/analyze")
 def analyze_ecg(signal: ECGSignal):
     try:
-        # 1. تنفيذ خوارزمية الاكتشاف
+        # 1. ØªÙ†ÙÙŠØ° Ø®ÙˆØ§Ø±Ø²Ù…ÙŠØ© Ø§Ù„Ø§ÙƒØªØ´Ø§Ù
         detector = RuleBasedDetector()
         alert = detector.analyze(signal)
 
-        # 2. تحويل النتيجة إلى معيار FHIR R4
+        # 2. ØªØ­ÙˆÙŠÙ„ Ø§Ù„Ù†ØªÙŠØ¬Ø© Ø¥Ù„Ù‰ Ù…Ø¹ÙŠØ§Ø± FHIR R4
         fhir_obs = FHIRConverterAdapter.create_observation(alert)
 
         return {
@@ -23,4 +24,5 @@ def analyze_ecg(signal: ECGSignal):
             "fhir_observation": fhir_obs.dict(),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"خطأ أثناء معالجة الإشارة: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ù„Ø¥Ø´Ø§Ø±Ø©: {str(e)}") from e
+

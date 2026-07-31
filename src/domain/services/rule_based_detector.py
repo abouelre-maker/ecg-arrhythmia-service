@@ -1,3 +1,4 @@
+﻿# mypy: ignore-errors
 # mypy: ignore-errors
 import neurokit2 as nk
 import numpy as np
@@ -11,12 +12,12 @@ from src.domain.interfaces.detection_strategy import IDetectionStrategy
 
 
 class RuleBasedDetector(IDetectionStrategy):
-    """خوارزمية تحليل إشارة ECG بناءً على معالجة الإشارة واستخراج R-Peaks"""
+    """Ø®ÙˆØ§Ø±Ø²Ù…ÙŠØ© ØªØ­Ù„ÙŠÙ„ Ø¥Ø´Ø§Ø±Ø© ECG Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ù„Ø¥Ø´Ø§Ø±Ø© ÙˆØ§Ø³ØªØ®Ø±Ø§Ø¬ R-Peaks"""
 
     def analyze(self, ecg_signal: ECGSignal) -> ArrhythmiaAlert:
         signal_array = np.array(ecg_signal.raw_data)
 
-        # استخراج R-peaks وتنظيف الإشارة
+        # Ø§Ø³ØªØ®Ø±Ø§Ø¬ R-peaks ÙˆØªÙ†Ø¸ÙŠÙ Ø§Ù„Ø¥Ø´Ø§Ø±Ø©
         cleaned_signal = nk.ecg_clean(signal_array, sampling_rate=ecg_signal.sampling_rate)
         peaks, _ = nk.ecg_peaks(cleaned_signal, sampling_rate=ecg_signal.sampling_rate)
 
@@ -30,11 +31,11 @@ class RuleBasedDetector(IDetectionStrategy):
                 requires_immediate_action=False,
             )
 
-        # حساب فترات RR ومعدل ضربات القلب (Heart Rate)
+        # Ø­Ø³Ø§Ø¨ ÙØªØ±Ø§Øª RR ÙˆÙ…Ø¹Ø¯Ù„ Ø¶Ø±Ø¨Ø§Øª Ø§Ù„Ù‚Ù„Ø¨ (Heart Rate)
         rr_intervals = np.diff(r_peaks) / ecg_signal.sampling_rate
         heart_rate = 60.0 / np.mean(rr_intervals)
 
-        # معايير التشخيص السريري الأولي (Class B IEC 62304)
+        # Ù…Ø¹Ø§ÙŠÙŠØ± Ø§Ù„ØªØ´Ø®ÙŠØµ Ø§Ù„Ø³Ø±ÙŠØ±ÙŠ Ø§Ù„Ø£ÙˆÙ„ÙŠ (Class B IEC 62304)
         if heart_rate > 100:
             return ArrhythmiaAlert(
                 patient_id=ecg_signal.patient_id,
@@ -66,5 +67,6 @@ if __name__ == "__main__":
     detector = RuleBasedDetector()
     alert = detector.analyze(signal_entity)
     print(
-        f"نتيجة التحليل للمريض {alert.patient_id}: {alert.rhythm.value} (نسبة الثقة: {alert.confidence * 100}%)"
+        f"Ù†ØªÙŠØ¬Ø© Ø§Ù„ØªØ­Ù„ÙŠÙ„ Ù„Ù„Ù…Ø±ÙŠØ¶ {alert.patient_id}: {alert.rhythm.value} (Ù†Ø³Ø¨Ø© Ø§Ù„Ø«Ù‚Ø©: {alert.confidence * 100}%)"
     )
+
