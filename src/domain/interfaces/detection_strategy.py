@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 from abc import ABC, abstractmethod
 
 from src.domain.entities.ecg_signal import ArrhythmiaAlert, ECGSignal

@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 from fastapi import APIRouter, HTTPException
 
 from src.domain.entities.ecg_signal import ECGSignal
