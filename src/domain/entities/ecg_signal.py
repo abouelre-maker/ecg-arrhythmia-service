@@ -1,26 +1,57 @@
-from datetime import datetime
-from enum import StrEnum
+"""
+ECG Signal Domain Entities.
 
-from pydantic import BaseModel, Field
+IEC 62304 §5.2: Immutable value objects — primary artifacts of the pipeline.
+ISO 14971: ClassificationResult.confidence < 0.70 → mandatory clinical review.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
 
 
-class ArrhythmiaType(StrEnum):
-    NORMAL = "Normal Sinus Rhythm"
-    VT = "Ventricular Tachycardia"
-    AF = "Atrial Fibrillation"
-    PVC = "Premature Ventricular Contraction"
+class RhythmType(str, Enum):
+    """
+    Clinical ECG rhythm classification types.
+
+    IEC 62304 §5.2: Each variant is a distinct software requirement.
+    ISO 14971: Maps directly to clinical risk levels in the Risk Register.
+    """
+
+    NORMAL_SINUS = "NORMAL_SINUS"
+    ATRIAL_FIBRILLATION = "ATRIAL_FIBRILLATION"
+    VENTRICULAR_TACHYCARDIA = "VENTRICULAR_TACHYCARDIA"
+    PREMATURE_VENTRICULAR_CONTRACTION = "PREMATURE_VENTRICULAR_CONTRACTION"
+    BRADYCARDIA = "BRADYCARDIA"
+    UNKNOWN = "UNKNOWN"
 
 
-class ECGSignal(BaseModel):
+@dataclass(frozen=True)
+class ECGSignal:
+    """Immutable raw ECG signal input — primary pipeline entry artifact."""
+
+    samples: list[float]
+    sampling_rate_hz: float
     patient_id: str
-    sampling_rate: int = Field(default=500, description="معدل العينات بالهرتز")
-    raw_data: list[float] = Field(..., description="نقاط إشارة ECG الخام")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    recorded_at: datetime = field(
+        default_factory=lambda: datetime.now(tz=timezone.utc)
+    )
 
 
-class ArrhythmiaAlert(BaseModel):
-    patient_id: str
-    rhythm: ArrhythmiaType
-    confidence: float = Field(..., ge=0.0, le=1.0, description="نسبة الثقة في الاكتشاف")
-    requires_immediate_action: bool
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+@dataclass(frozen=True)
+class ClassificationResult:
+    """
+    Immutable output of ArrhythmiaClassifier.
+
+    IEC 62304: Primary output artifact of the signal processing pipeline.
+    ISO 14971 HAZARD-003: confidence < 0.70 triggers mandatory clinical review.
+    """
+
+    rhythm_type: RhythmType
+    confidence: float          # Range: 0.0 – 1.0
+    heart_rate_bpm: float      # Must be > 0
+    rr_intervals_ms: list[float]
+    analysis_timestamp: datetime
+    
