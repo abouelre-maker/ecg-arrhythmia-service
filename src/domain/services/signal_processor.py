@@ -31,9 +31,7 @@ class BandpassFilter:
         self, fs: float, lowcut: float = 0.5, highcut: float = 40.0, order: int = 4
     ) -> None:
         if fs <= 0:
-            raise InvalidInputError(
-                "Sampling frequency (fs) must be strictly positive."
-            )
+            raise InvalidInputError("Sampling frequency (fs) must be strictly positive.")
         if lowcut >= highcut:
             raise InvalidInputError("lowcut must be strictly less than highcut.")
 
@@ -53,9 +51,7 @@ class BandpassFilter:
         high = self.highcut / nyq
 
         if low <= 0 or high >= 1:
-            raise InvalidInputError(
-                f"Filter frequencies must be between 0 and Nyquist ({nyq} Hz)."
-            )
+            raise InvalidInputError(f"Filter frequencies must be between 0 and Nyquist ({nyq} Hz).")
 
         b, a = butter(self.order, [low, high], btype="bandpass")
         try:
@@ -63,6 +59,7 @@ class BandpassFilter:
             return filtered_signal
         except Exception as e:
             raise SignalProcessingError(f"Filtering operation failed: {str(e)}") from e
+
 
 # ==========================================
 # 3. R-Peak Detector
@@ -94,9 +91,7 @@ class RPeakDetector:
         threshold = np.mean(integrated_signal) * 1.5
         min_distance = int(0.2 * self.fs)
 
-        peaks, _ = find_peaks(
-            integrated_signal, height=threshold, distance=min_distance
-        )
+        peaks, _ = find_peaks(integrated_signal, height=threshold, distance=min_distance)
         return peaks.astype(np.int64)
 
 

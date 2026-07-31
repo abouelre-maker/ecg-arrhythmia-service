@@ -16,9 +16,7 @@ class RuleBasedDetector(IDetectionStrategy):
         signal_array = np.array(ecg_signal.raw_data)
 
         # استخراج R-peaks وتنظيف الإشارة
-        cleaned_signal = nk.ecg_clean(
-            signal_array, sampling_rate=ecg_signal.sampling_rate
-        )
+        cleaned_signal = nk.ecg_clean(signal_array, sampling_rate=ecg_signal.sampling_rate)
         peaks, _ = nk.ecg_peaks(cleaned_signal, sampling_rate=ecg_signal.sampling_rate)
 
         r_peaks = np.where(peaks["ECG_R_Peaks"] == 1)[0]

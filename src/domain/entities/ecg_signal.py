@@ -35,9 +35,7 @@ class ECGSignal:
     samples: list[float]
     sampling_rate_hz: float
     patient_id: str
-    recorded_at: datetime = field(
-        default_factory=lambda: datetime.now(tz=timezone.utc)
-    )
+    recorded_at: datetime = field(default_factory=lambda: datetime.now(tz=timezone.utc))
 
 
 @dataclass(frozen=True)
@@ -50,8 +48,7 @@ class ClassificationResult:
     """
 
     rhythm_type: RhythmType
-    confidence: float          # Range: 0.0 – 1.0
-    heart_rate_bpm: float      # Must be > 0
+    confidence: float  # Range: 0.0 – 1.0
+    heart_rate_bpm: float  # Must be > 0
     rr_intervals_ms: list[float]
     analysis_timestamp: datetime
-    

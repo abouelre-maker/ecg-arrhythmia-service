@@ -22,6 +22,4 @@ def analyze_ecg(signal: ECGSignal):
             "fhir_observation": fhir_obs.dict(),
         }
     except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=f"خطأ أثناء معالجة الإشارة: {str(e)}"
-            ) from e
+        raise HTTPException(status_code=500, detail=f"خطأ أثناء معالجة الإشارة: {str(e)}") from e

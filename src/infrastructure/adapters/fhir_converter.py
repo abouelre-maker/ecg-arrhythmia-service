@@ -24,9 +24,7 @@ from domain.entities.ecg_signal import ClassificationResult, RhythmType
 LOINC_SYSTEM: Final[str] = "http://loinc.org"
 SNOMED_SYSTEM: Final[str] = "http://snomed.info/sct"
 UCUM_SYSTEM: Final[str] = "http://unitsofmeasure.org"
-OBS_CATEGORY_SYSTEM: Final[str] = (
-    "http://terminology.hl7.org/CodeSystem/observation-category"
-)
+OBS_CATEGORY_SYSTEM: Final[str] = "http://terminology.hl7.org/CodeSystem/observation-category"
 
 # LOINC 8625-6 → Cardiac rhythm  (Observation.code)
 CARDIAC_RHYTHM_LOINC: Final[str] = "8625-6"
@@ -67,9 +65,7 @@ _RHYTHM_SNOMED_MAP: Final[dict[RhythmType, tuple[str, str]]] = {
 
 # ── Custom Extension Base URL ──────────────────────────────────────────────────
 
-_EXT_BASE: Final[str] = (
-    "http://ecg-arrhythmia-service.org/fhir/StructureDefinition"
-)
+_EXT_BASE: Final[str] = "http://ecg-arrhythmia-service.org/fhir/StructureDefinition"
 _CONFIDENCE_EXT_URL: Final[str] = f"{_EXT_BASE}/algorithm-confidence-score"
 _IEC62304_EXT_URL: Final[str] = f"{_EXT_BASE}/iec62304-software-class"
 
@@ -137,12 +133,8 @@ class FHIRObservationConverter:
                 "subject": {"reference": f"Patient/{patient_id}"},
                 "effectiveDateTime": result.analysis_timestamp.isoformat(),
                 "issued": datetime.now(tz=timezone.utc).isoformat(),
-                "valueCodeableConcept": self._build_value(
-                    snomed_code, snomed_display
-                ),
-                "component": [
-                    self._build_heart_rate_component(result.heart_rate_bpm)
-                ],
+                "valueCodeableConcept": self._build_value(snomed_code, snomed_display),
+                "component": [self._build_heart_rate_component(result.heart_rate_bpm)],
                 "extension": [
                     self._build_confidence_extension(result.confidence),
                     self._build_iec62304_extension(),
@@ -187,8 +179,7 @@ class FHIRObservationConverter:
             )
         if result.heart_rate_bpm <= 0.0:
             raise FHIRConversionError(
-                f"heart_rate_bpm must be a positive value. "
-                f"Got {result.heart_rate_bpm!r}."
+                f"heart_rate_bpm must be a positive value. Got {result.heart_rate_bpm!r}."
             )
 
     # ── FHIR Resource Builders ─────────────────────────────────────────────────

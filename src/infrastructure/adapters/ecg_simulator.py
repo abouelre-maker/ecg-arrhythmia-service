@@ -8,9 +8,7 @@ class ECGDataSimulator:
     def __init__(self, sampling_rate: int = 500):
         self.sampling_rate = sampling_rate
 
-    def generate_normal_ecg(
-        self, duration_sec: int = 10, heart_rate: int = 75
-    ) -> np.ndarray:
+    def generate_normal_ecg(self, duration_sec: int = 10, heart_rate: int = 75) -> np.ndarray:
         """توليد إشارة ECG طبيعية محاكاة للمحيط السريري"""
         signal = nk.ecg_simulate(
             duration=duration_sec,
