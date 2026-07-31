@@ -36,7 +36,7 @@ jobs:
         run: bandit -r src/ -ll
 
       - name: Automated Medical Unit Tests & Coverage (Pytest)
-        run: pytest tests/ --cov=src --cov-fail-under=80
+        run: PYTHONPATH=. pytest tests/ --cov=src --cov-fail-under=80
 
       - name: Build Docker Image (Containerization)
         run: docker build -t ecg-microservice:latest .
