@@ -1,10 +1,8 @@
-﻿# mypy: ignore-errors
-# mypy: ignore-errors
-from fastapi import APIRouter, HTTPException
+﻿from fastapi import APIRouter, HTTPException
 
 from src.domain.entities.ecg_signal import ECGSignal
 from src.domain.services.rule_based_detector import RuleBasedDetector
-from src.infrastructure.adapters.fhir_converter import FHIRConverterAdapter
+from src.infrastructure.adapters.fhir_converter import FHIRObservationConverter
 
 router = APIRouter()
 
@@ -12,17 +10,21 @@ router = APIRouter()
 @router.post("/analyze")
 def analyze_ecg(signal: ECGSignal):
     try:
-        # 1. ØªÙ†ÙÙŠØ° Ø®ÙˆØ§Ø±Ø²Ù…ÙŠØ© Ø§Ù„Ø§ÙƒØªØ´Ø§Ù
+        # 1. تنفيذ خوارزمية الاكتشاف
         detector = RuleBasedDetector()
-        alert = detector.analyze(signal)
+        result = detector.analyze(signal)
 
-        # 2. ØªØ­ÙˆÙŠÙ„ Ø§Ù„Ù†ØªÙŠØ¬Ø© Ø¥Ù„Ù‰ Ù…Ø¹ÙŠØ§Ø± FHIR R4
-        fhir_obs = FHIRConverterAdapter.create_observation(alert)
+        # 2. تحويل النتيجة إلى معيار FHIR R4
+        converter = FHIRObservationConverter()
+        fhir_obs = converter.to_fhir_observation(
+            result=result,
+            patient_id=signal.patient_id,
+        )
 
         return {
-            "alert": alert,
-            "fhir_observation": fhir_obs.dict(),
+            "alert": result,
+            "fhir_observation": fhir_obs,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ù„Ø¥Ø´Ø§Ø±Ø©: {str(e)}") from e
-
+        error_msg = f"خطأ أثناء معالجة الإشارة: {str(e)}"  # noqa: E501
+        raise HTTPException(status_code=500, detail=error_msg) from e
