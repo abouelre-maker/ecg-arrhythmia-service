@@ -23,5 +23,5 @@ if __name__ == "__main__":
     simulator = ECGDataSimulator()
     signal = simulator.generate_normal_ecg(duration_sec=5)
     print(
-        f"تم توليد إشارة بنجاح! عدد النقاط: {len(signal)} نقطة بمعدل عينات {simulator.sampling_rate}Hz"
+        f"تم توليد إشارة بنجاح! عدد النقاط: {len(signal)} نقطة بمعدل عينات {simulator.sampling_rate}Hz"   # noqa: E501
     )

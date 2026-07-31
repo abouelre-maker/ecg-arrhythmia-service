@@ -65,5 +65,5 @@ if __name__ == "__main__":
     detector = RuleBasedDetector()
     alert = detector.analyze(signal_entity)
     print(
-        f"نتيجة التحليل للمريض {alert.patient_id}: {alert.rhythm.value} (نسبة الثقة: {alert.confidence * 100}%)"
+        f"نتيجة التحليل للمريض {alert.patient_id}: {alert.rhythm.value} (نسبة الثقة: {alert.confidence * 100}%)"  # noqa: E501
     )
