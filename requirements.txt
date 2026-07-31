@@ -8,3 +8,6 @@ fhir.resources>=7.1.0
 neurokit2>=0.2.7
 structlog>=23.2.0
 tenacity>=8.2.3
+
+numpy
+neurokit2
