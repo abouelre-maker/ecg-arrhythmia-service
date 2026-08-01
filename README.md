@@ -53,6 +53,9 @@ The rule-based algorithmic pipeline evaluates signal properties to identify:
 ## 🏗️ Software Architecture
 
 Built using Clean Architecture principles and the **GoF Factory Method Pattern**:
+Built using Clean Architecture principles and the **GoF Factory Method Pattern**:
+
+```mermaid
 graph TD
     A[Patient Monitor / Telemetry] -->|Raw ECG Signal| B(SaMD Microservice)
     B -->|Bandpass Filter| C{R-Peak Detection}
