@@ -53,3 +53,17 @@ The rule-based algorithmic pipeline evaluates signal properties to identify:
 ## 🏗️ Software Architecture
 
 Built using Clean Architecture principles and the **GoF Factory Method Pattern**:
+graph TD
+    A[Patient Monitor / Telemetry] -->|Raw ECG Signal| B(SaMD Microservice)
+    B -->|Bandpass Filter| C{R-Peak Detection}
+    C -->|Feature Extraction| D[Arrhythmia Classifier]
+    D -->|NSR, AF, VT, PVC| E(FHIR R4 Adapter)
+    E -->|Observation Resource| F[(HIS / EMR System)]
+    F -->|Integration| G((NPHIES / Malaffi))
+    
+    classDef saudi fill:#006A4E,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef uae fill:#FF0000,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef service fill:#005b96,stroke:#fff,stroke-width:2px,color:#fff;
+    
+    class G saudi;
+    class B,D service;
