@@ -678,3 +678,23 @@ and now writes the software that processes what those monitors measure.*
 </div>
 ![Swagger UI Part 1](./docs/screenshots/swagger_ui.png)
 ![Swagger UI Part 2](./docs/screenshots/swagger_ui_2.png)
+---
+
+## 📸 Live API Documentation
+
+The service exposes a full OpenAPI 3.0 specification, auto-generated and always in sync with the codebase.
+
+![Swagger UI Part 1](docs/screenshots/swagger_ui.png)
+![Swagger UI Part 2](docs/screenshots/swagger_ui_2.png)
+
+## ⏱️ Input to Output — 60ms Pipeline
+
+- **Input:** 10 seconds of raw ICU monitor ECG at 500 Hz
+- **Output:** FHIR R4 Observation ready for NPHIES submission
+
+---
+
+## 🩺 Clinical Context & Engineering Decisions
+
+Read the full background on how ICU clinical experience shaped this code architecture:
+👉 [Clinical Context Documentation](docs/CLINICAL_CONTEXT.md)
