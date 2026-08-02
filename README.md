@@ -676,3 +676,5 @@ and now writes the software that processes what those monitors measure.*
 **IEC 62304 Class B · ISO 14971 Risk-Managed · HL7 FHIR R4 · NPHIES · Malaffi · NABIDH**
 
 </div>
+![Swagger UI](docs/screenshots/swagger_ui.png)
+![Swagger UI](docs/screenshots/swagger_ui 2.png)
