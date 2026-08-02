@@ -640,7 +640,7 @@ by this service.
 My path into Software as a Medical Device development is grounded in **real clinical
 experience**, not academic theory alone.
 
-As a Biomedical Service Engineer at Nasser Hospital Complex (Gaza Strip), I worked
+As a Biomedical Service Engineer, I worked
 hands-on with the critical care devices that generate the very signals this microservice
 is designed to analyze — patient monitors, ventilators, defibrillators, and infusion
 pumps in ICU and Operating Room environments.
